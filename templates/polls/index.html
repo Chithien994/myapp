@@ -1,0 +1,86 @@
+{% extends 'polls/base.html' %} {% block title %}Question{% endblock title %} {% block content %}
+{% if objects.latest_question_list %}
+<body class=" app-polls model-question change-list">
+<!-- Container -->
+	<div id="container">
+	    <!-- Header -->
+	    <div id="header">
+		        <div id="branding">
+		        	<h1 id="site-name"><a href="/polls/">My App</a></h1>
+		        </div>
+	        <div id="user-tools">Welcome,
+	            <strong>{{ objects.admin.phone_number }}</strong>.
+	            <a href="/">View site</a> /
+	            <a href="/admin/password_change/">Change password</a> /
+	            <a href="/admin/logout/">Log out</a>
+	        </div>
+	    </div>
+	    <!-- END Header -->
+		<div class="breadcrumbs">
+			<a href="/polls/">Polls</a>
+			› Question
+		</div>
+		<div id="content" class="flex">
+		    <h1>Select question to change</h1>
+		  	<div id="content-main">
+		        <ul class="object-tools"><li><a href="/admin/polls/question/add/" class="addlink"> Add question</a></li></ul>
+		    	<div class="module" id="changelist">
+		      		<form action="{% url 'polls:delete' %}" id="changelist-form" method="post" novalidate="">
+		      			{% csrf_token %}
+		      			<div class="actions">
+		    				<label>Action: 
+		    					<select name="option" required="">
+				  					<option value="" selected="">---------</option>
+				  					<option value="delete">Delete selected</option>
+								</select>
+							</label>
+							<input type="hidden" name="select_across" value="0" class="select-across">
+		    				<button type="submit" class="button" title="Run the selected action" name="index" value="0">Go</button>
+		        			<span class="action-counter" data-actions-icnt="{{ objects.latest_question_list|length }}" style="display: inline;">0 of {{ objects.latest_question_list|length }} selected</span>
+		        		</div>
+						<div class="results">
+							<table id="result_list">
+								<thead>
+									<tr>
+										<th scope="col" class="action-checkbox-column">
+		   									<div class="text"><span><input type="checkbox" id="action-toggle"></span></div>
+		   									<div class="clear"></div>
+										</th>
+										<th scope="col" class="column-__str__">
+			   								<div class="text"><span>Question</span></div>
+			   								<div class="clear"></div>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for question in objects.latest_question_list %}
+									<tr class="row1">
+										<td class="action-checkbox">
+											<input type="checkbox" name="id_list" value="{{ question.id }}" class="action-select">
+										</td>
+										<th class="field-__str__">
+											<a href="{% url 'polls:detail' question.id %}">{{ question.question_text|capfirst }}</a>
+										</th>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+						<p class="paginator"> {{ objects.latest_question_list|length }} Question </p>
+		      		</form>
+		    	</div>
+		  	</div>
+		    <br class="clear">
+		</div>
+		{% else %}
+		    <p>No polls are available.</p>
+		{% endif %}
+		<form action="{% url 'polls:add' %}" method="post">
+			{% csrf_token %}
+			<input type="text" name="question_key" value="Question">
+			<input type="submit" value="Add Question">
+		</form>
+		<a href="{% url 'polls:show_email' %}" class="button">Send Email</a>
+	</div>
+</body>
+{% endblock %}

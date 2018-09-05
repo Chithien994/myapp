@@ -1,0 +1,47 @@
+{% extends 'polls/base.html' %} {% block title %}Send Mail{% endblock title %} {% block content %}
+<body class=" app-polls model-question change-list">
+<!-- Container -->
+	<div id="container">
+	    <!-- Header -->
+	    <div id="header">
+		        <div id="branding">
+		        	<h1 id="site-name"><a href="/polls/">My App</a></h1>
+		        </div>
+	        <div id="user-tools">Welcome,
+	            <strong>{{ admin.phone_number }}</strong>.
+	            <a href="/">View site</a> /
+	            <a href="/admin/password_change/">Change password</a> /
+	            <a href="/admin/logout/">Log out</a>
+	        </div>
+	    </div>
+	    <!-- END Header -->
+		<div class="breadcrumbs">
+			<a href="/polls/">Polls</a>
+			› Email
+		</div>
+		<div id="content" class="flex">
+		    <h1>Select email to send</h1>
+		  	<div id="content-main" ng-app="App">
+		    	<div class="module" id="changelist" ng-controller="ctrl">
+		      		<form action="{% url 'polls:send_email' user.email|urlencode %}" id="changelist-form" method="post" novalidate="">
+		      			{% csrf_token %}
+		      			<div class="actions">
+		    				<label>Email: 
+		    					<select name="email">
+				  					{% for user in users %}
+				  					<option value="{{ user.email }}">{{ user.full_name }} - {{ user.email|capfirst }}</option>
+				  					{% endfor %}
+								</select>
+							</label>
+							<input type="hidden" name="select_across" value="0" class="select-across">
+		    				<button type="submit" class="button" title="Run the selected action" name="index" value="0">Send</button>
+		        		</div>
+		      		</form>
+		    	</div>
+		    	{{ template }}
+		  	</div>
+		    <br class="clear">
+		</div>
+	</div>
+</body>
+{% endblock %}

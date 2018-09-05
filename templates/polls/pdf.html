@@ -1,0 +1,12 @@
+{% load static %}
+<table id="result_list">
+	<tbody>
+		{% for question in questions %}
+		<tr class="row1">
+			<th class="field-__str__">
+				<span>{{ question.question_text|capfirst }}</span>
+			</th>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>

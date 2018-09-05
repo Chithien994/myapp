@@ -1,0 +1,71 @@
+{% extends 'polls/base.html' %} {% block title %}Change{% endblock title %} {% block content %}
+<body class="app-polls model-question change-form">
+	<!-- Container -->
+	<div id="container">
+	    <!-- Header -->
+	    <div id="header">
+	        <div id="branding">
+				<h1 id="site-name"><a href="/polls/">My App</a></h1>
+        	</div>
+	        <div id="user-tools">Welcome,
+	            <strong>{{ admin.phone_number }}</strong>.
+	            <a href="/">View site</a> /
+	            <a href="/admin/password_change/">Change password</a> /
+	            <a href="/admin/logout/">Log out</a>
+	        </div>
+	    </div>
+	    <!-- END Header -->
+		<div class="breadcrumbs">
+		<a href="/polls/">Polls</a>
+		› Question #{{ question.id }}
+		</div>
+	    <!-- Content -->
+	    <div id="content" class="colM">
+	        <h1>Change question</h1>
+	        <div id="content-main">
+	  			<ul class="object-tools">
+					<li><a href="/admin/polls/question/{{ question.id }}/history/" class="historylink">History</a></li>
+				</ul>
+				<form action="{% url 'polls:options' %}" method="post" id="question_form" novalidate="">
+					{% csrf_token %}
+					<div>
+						<fieldset class="module aligned ">
+							<div class="form-row field-question_text">
+	            				<div>
+									<label class="required" for="id_question_text">Question text:</label>
+									<input type="hidden" name="question_id" value="{{ question.id }}"> 
+	                            	<input type="text" name="question_text" value="{{ question.question_text|capfirst }}" class="vTextField" maxlength="200" required="" id="id_question_text">
+	            				</div>
+	    					</div>
+		        			<div class="form-row field-pub_date">
+		                		<div>
+		                        	<label class="required" for="id_pub_date_0">Date published:</label>
+		                            <p class="datetime">
+							            Date: 
+							            <input type="text" name="date_time_0" value="{{ question.pub_date|date:'Y-m-d' }}" required="" id="id_date_time_0" class="vDateField" size="10">
+										<br>
+						  				Time: 
+						  				<input type="text" name="date_time_1" value="{{ question.pub_date|date:'H:i:s' }}" required="" id="id_date_time_1" class="vTimeField" size="8">
+										<br>
+										<span class="timezonewarning">Note: You are 12 hours ahead of server time.</span>
+									</p>   
+		                		</div>
+		        			</div>
+						</fieldset>
+						<div class="submit-row">
+							<input type="submit" value="Save" class="default" name="option">
+					    	<p class="deletelink-box"><a href="{% url 'polls:one_delete' question.id %}" class="deletelink">Delete</a></p>
+						</div>
+						<script type="text/javascript" id="django-admin-form-add-constants" src="/static/admin/js/change_form.js"></script>
+						<script type="text/javascript" id="django-admin-prepopulated-fields-constants" src="/static/admin/js/prepopulate_init.js" data-prepopulated-fields="[]"></script>
+					</div>
+				</form>
+			</div>
+	        <br class="clear">
+	    </div>
+	    <!-- END Content -->
+	    <div id="footer"></div>
+	</div>
+	<!-- END Container -->
+</body>
+{% endblock %}

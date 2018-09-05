@@ -1,0 +1,123 @@
+from decimal import Decimal
+
+from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext_lazy as _
+from django.dispatch.dispatcher import receiver
+from rest_framework.authtoken.models import Token
+
+@python_2_unicode_compatible
+class DateTimeModel(models.Model):
+    """
+    Abstract model that is used for the model using created and modified fields
+    """
+    created = models.DateTimeField(
+        _('Created'), auto_now_add=True, editable=False)
+    modified = models.DateTimeField(
+        _('Modified'), auto_now=True, editable=False)
+
+    def __init__(self, *args, **kwargs):
+        super(DateTimeModel, self).__init__(*args, **kwargs)
+
+    class Meta:
+        abstract = True
+
+
+@python_2_unicode_compatible
+class AppUserManager(BaseUserManager):
+    def create_user(self, email, full_name, phone_number, password=None):
+        """
+        Creates and saves a User with the given email, date of
+        birth and password.
+        """
+        if not email:
+            raise ValueError('Users must have an email address')
+
+        user = self.model(
+            email=self.normalize_email(email),
+            full_name=full_name,
+            phone_number=phone_number,
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, full_name, phone_number, password):
+        """
+        Creates and saves a superuser with the given email, phone_number and password.
+        """
+        user = self.create_user(
+            email,
+            password=password,
+            full_name=full_name,
+            phone_number=phone_number,
+        )
+        user.is_admin = True
+        user.save(using=self._db)
+        return user
+
+class AppUser(DateTimeModel, AbstractBaseUser):
+    email = models.EmailField(max_length=255,unique=True)
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+    full_name = models.CharField(max_length=80, blank=True, null=True)
+    phone_number = models.CharField(max_length=20, unique=True)
+    company_name = models.CharField(
+        null=True, blank=True, max_length=200, default='')
+    address = models.CharField(
+        null=True, blank=True, max_length=300, default='')
+    state = models.CharField(null=True, blank=True, max_length=100, default='')
+    city = models.CharField(null=True, blank=True, max_length=100, default='')
+    zip_code = models.IntegerField(blank=True, null=True, default=0)
+    objects = AppUserManager()
+
+    USERNAME_FIELD = 'phone_number'
+    REQUIRED_FIELDS = ['email', 'full_name']
+
+    def __str__(self):
+        return '%s - %s - %s' % (self.email, self.full_name, self.phone_number)
+
+    def has_perm(self, perm, obj=None):
+        "Does the user have a specific permission?"
+        # Simplest possible answer: Yes, always
+        return True
+
+    def has_perms(self, perm, obj=None):
+        "Does the user have a specific permission?"
+        # Simplest possible answer: Yes, always
+        return True
+
+    def has_module_perms(self, app_label):
+        "Does the user have permissions to view the app `app_label`?"
+        # Simplest possible answer: Yes, always
+        return True
+
+    @property
+    def is_staff(self):
+        "Is the user a member of staff?"
+        # Simplest possible answer: All admins are staff
+        return self.is_admin
+
+    class Meta:
+        db_table = 'users'
+
+class Setting(DateTimeModel):
+    key = models.CharField(max_length=255, unique=True)
+    value = models.TextField(default='', blank=True, null=True)
+
+    def __str__(self):
+        return self.key
+
+    class Meta:
+        db_table = 'settings'
+
+
+@receiver(models.signals.post_save, sender=AppUser)
+def create_token(sender, instance, created, **kwargs):
+    if created:
+        try:
+            token, created = Token.objects.get_or_create(user=instance)
+        except:
+            pass

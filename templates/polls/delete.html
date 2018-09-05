@@ -1,0 +1,53 @@
+{% extends 'polls/base.html' %} {% block title %}Delete{% endblock title %} {% block content %}
+<body class=" app-polls model-question delete-confirmation delete-selected-confirmation" data-admin-utc-offset="-18000">
+	<!-- Container -->
+	<div id="container">
+		<!-- Header -->
+	    <div id="header">
+	        <div id="branding">
+				<h1 id="site-name"><a href="/polls/">My App</a></h1>
+        	</div>
+	        <div id="user-tools">Welcome,
+	            <strong>{{ admin.phone_number }}</strong>.
+	            <a href="/">View site</a> /
+	            <a href="/admin/password_change/">Change password</a> /
+	            <a href="/admin/logout/">Log out</a>
+	        </div>
+	    </div>
+	    <!-- END Header -->
+		<div class="breadcrumbs">
+			<a href="/polls/">Polls</a>
+			› Delete multiple objects
+		</div>
+	    <!-- Content -->
+	    <div id="content" class="colM">
+	        <h1>Are you sure?</h1>
+	    	<p>Are you sure you want to delete the selected question? All of the following objects and their related items will be deleted:</p>
+			<h2>Summary</h2>
+			<ul><li>Polls_question: {{ latest_question_list|length }}</li></ul>
+	    	<h2>Objects</h2>
+	    	{% if latest_question_list %}
+	    	{% for question in latest_question_list %}
+	        <ul><li>Question: <a href="{% url 'polls:detail' question.id %}">ID#{{ question.id }} Content#{{ question.question_text }}</a></li></ul>
+	        {% endfor %}
+	        {% endif %}
+		    <form action="{% url 'polls:options' %}" method="post">
+			    <div>
+			    	<input type="hidden" name="option" value="delete">
+			    	{% if latest_question_list %}
+			    	{% for question in latest_question_list %}
+				    <input type="hidden" name="id_list" value="{{ question.id }}">
+				    {% endfor %}
+				    <input type="submit" value="Yes, I'm sure">
+				    {% endif %}
+				    <a href="/polls/" class="button cancel-link">No, take me back</a>
+			    </div>
+	    	</form>
+	        <br class="clear">
+	    </div>
+	    <!-- END Content -->
+	    <div id="footer"></div>
+	</div>
+	<!-- END Container -->
+</body>
+{% endblock %}
