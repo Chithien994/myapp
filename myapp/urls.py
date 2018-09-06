@@ -18,8 +18,8 @@ from django.conf.urls import url
 from django.urls import include, path
 from rest_framework_swagger.views import get_swagger_view
 
-from api.views import home, oauth2callback
-from appview.views import home, jobs
+from api.views import oauth2callback
+from appview.views import home, job
 
 schema_view = get_swagger_view(title='MyApp API')
 
@@ -29,6 +29,6 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('docs/', schema_view),
     url(r'^$', home, name='home'),
-    url(r'jobs/', job, name='job')
+    url(r'jobs/', job, name='job'),
     url(r'^oauth2callback$', oauth2callback, name='oauth2callback'),
 ]
