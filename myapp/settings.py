@@ -216,19 +216,3 @@ if PRODUCTION:
                                  }
         }
     }
-    
-GOOGLE_PROJECT_ID = 'api-7974896214279712656-991374'
-GOOGLE_BUNDLE_ID = 'com.magrabbit.dwelltime'
-GOOGLE_API_KEY = 'AIzaSyAY94Pl1LigAUzX-ey2XhRlgONEo_t6aBg'
-# AIzaSyDKWA42h23tJBlArXvJjaqSoNfSM7vk-SM
-GOOGLE_CLIENT_ID = '684495758788-cjqou1hatfuu89032oshtlvepk85nsr4.apps.googleusercontent.com'
-GOOGLE_CLIENT_SECRET = 'chA1Qc3HGM4COJ8Qp504Sm3S'
-
-GOOGLE_WEB_CLIENT_ID = '684495758788-k25plj9d44er3sj2r4m7nbnb0i65froq.apps.googleusercontent.com'
-GOOGLE_WEB_CLIENT_SECRET = 'LSSUpNNiKecEYLi_5DirPARF'
-GOOGLE_MAPS_API = 'AIzaSyDvhemf7qDtt9lKm1ShSAEJDQkELsS7j2k'
-
-CLIENT_SECRET = os.path.join(BASE_DIR, 'client_secret.json')
-CLIENT_DATA = os.path.join(BASE_DIR, 'client_data.json')
-# Google API
-REFRESH_MINS = 45  # minutes
