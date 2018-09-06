@@ -13,8 +13,9 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 
 from core.utils import get_site_url
-from api.serializers import UserSerializer, QuestionSerializer
+from api.serializers import UserSerializer, QuestionSerializer, IJobSerializer
 from polls.models import Question
+from ijobs.models import IJob
 
 User = get_user_model()
 
@@ -47,10 +48,12 @@ class QuestionViewSet(viewsets.ModelViewSet):
     authentication_classes = [CustomTokenAuthentication,
                               SessionAuthentication, BasicAuthentication]
 
-
-def home(request):
-    return render(request, 'frontend/home.html',
-                  {})
+class IJobViewSet(viewsets.ModelViewSet):
+    queryset = IJob.objects.all()
+    serializer_class = IJobSerializer
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [CustomTokenAuthentication, 
+                                SessionAuthentication, BasicAuthentication]
 
 @csrf_exempt
 @permission_classes((permissions.IsAuthenticated,))

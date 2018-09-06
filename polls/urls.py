@@ -13,5 +13,5 @@ urlpatterns = [
     path('question/', views.delete, name='delete'),
     path('question/<int:question_id>/delete/', views.one_delete, name='one_delete'),
     path('email/send/', views.show_email, name='show_email'),
-    path('email/send/(?P<email>[0-9]+)$', views.send_email, name='send_email'),
+    path('email/send/<str:email>', views.send_email, name='send_email'),
 ]

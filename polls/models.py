@@ -41,8 +41,8 @@ class Question(models.Model):
             return Question.objects.filter(id__in=id__in)
 
     class Meta:
-        db_table = 'question'
-        verbose_name_plural = 'question'
+        db_table = 'questions'
+        verbose_name_plural = 'questions'
 
 
 class Choice(models.Model):

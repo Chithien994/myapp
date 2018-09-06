@@ -5,6 +5,7 @@ from rest_framework.authtoken.models import Token
 from core.constants import VALIDATION_CODE
 from core.enums import ValidationStatusCode
 from polls.models import Question
+from ijobs.models import IJob
 
 
 User = get_user_model()
@@ -51,10 +52,16 @@ class NewUserSerializer(serializers.ModelSerializer):
         return obj.email
 
     class Meta:
-        model = User
+        model   = User
         exclude = ('password', 'is_active', 'last_login','created', 'modified', 'is_admin')
 
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Question
-        fields = '__all__'
+        model   = Question
+        fields  = '__all__'
+
+class IJobSerializer(serializers.ModelSerializer):
+    class Meta:
+        model   = IJob
+        fields  = '__all__'
+            
