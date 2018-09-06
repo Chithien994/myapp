@@ -108,26 +108,26 @@ SITE_ID = 1
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': os.environ.get('RDS_DB_NAME', 'chithien994$myapp'),
-#         'USER': os.environ.get('RDS_USERNAME', 'chithien994'),
-#         'PASSWORD': os.environ.get('RDS_PASSWORD', 'Bigger@994'),
-#         'HOST': os.environ.get('RDS_HOSTNAME', 'chithien994.mysql.pythonanywhere-services.com'),
-#         'PORT': '3306',
-#     }
-# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('RDS_DB_NAME', 'myapp'),
-        'USER': os.environ.get('RDS_USERNAME', 'root'),
-        'PASSWORD': os.environ.get('RDS_PASSWORD', '123456'),
-        'HOST': os.environ.get('RDS_HOSTNAME', 'localhost'),
+        'NAME': os.environ.get('RDS_DB_NAME', 'chithien994$myapp'),
+        'USER': os.environ.get('RDS_USERNAME', 'chithien994'),
+        'PASSWORD': os.environ.get('RDS_PASSWORD', 'Bigger@994'),
+        'HOST': os.environ.get('RDS_HOSTNAME', 'chithien994.mysql.pythonanywhere-services.com'),
         'PORT': '3306',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': os.environ.get('RDS_DB_NAME', 'myapp'),
+#         'USER': os.environ.get('RDS_USERNAME', 'root'),
+#         'PASSWORD': os.environ.get('RDS_PASSWORD', '123456'),
+#         'HOST': os.environ.get('RDS_HOSTNAME', 'localhost'),
+#         'PORT': '3306',
+#     }
+# }
 
 
 # Password validation
