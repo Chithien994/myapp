@@ -69,7 +69,7 @@ function getData($scope, $http){
 	$http({
 	  	headers: { 'Content-Type':'application/json', 'Authorization':'token 3d0e846a1b276977bbc26e797ac1eb1bfc508ca6'},
 	    method : "GET",
-	    url : "http://127.0.0.1:8000/api/v1/jobs/?limit="+$scope.limit+"&offset="+$scope.offset
+	    url : "/api/v1/jobs/?limit="+$scope.limit+"&offset="+$scope.offset
 
 	  }).then(function mySuccess(response) {
 	  		console.log(response.data.results);
