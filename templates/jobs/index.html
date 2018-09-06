@@ -1,3 +1,90 @@
-{% extends 'jobs/base.html' %} {% block title %}Jobs{% endblock title %} {% block content %}
+{% extends 'base/base.html' %} {% block title %}Jobs{% endblock title %} {% block content %}
+<body>
+<!-- Container -->
+	<div id="container">
+	    <!-- Header -->
+	    <div id="header">
+		        <div id="branding">
+		        	<h1 id="site-name"><a href="/polls/">My App</a></h1>
+		        </div>
+	        <div id="user-tools">Welcome,
+	            <strong>{{ objects.admin.phone_number }}</strong>.
+	            <a href="/">View site</a> /
+	            <a href="/admin/password_change/">Change password</a> /
+	            <a href="/admin/logout/">Log out</a>
+	        </div>
+	    </div>
+	    <!-- END Header -->
+		<div class="breadcrumbs">
+			<a href="/jobs/">Jobs</a>
+			› Jobs
+		</div>
+		<div id="content" class="flex">
+		    <h1>All Jobs</h1>
+		  	<div id="content-main">
+		        <div ng-app="jobsApp" ng-controller="jobController">
+		        	<table>
+		        		<tr align="center">
+		        			<td align="left">ID</td>
+		        			<td>Name</td>
+		        			<td>Content</td>
+		        			<td>Time</td>
+		        			<td>Date</td>
+		        		</tr>
+		        		<tr ng-repeat="item in items">
+		        			<td>{$ item.id $}</td>
+		        			<td>{$ item.name $}</td>
+		        			<td>{$ item.content $}</td>
+		        			<td align="center">{$ item.time $}</td>
+		        			<td>{$ item.begin_date $} / {$ item.end_date $}</td>
+		        		</tr>
+		        		<tr><td><button class="button" type="button" ng-click="getJobs()" id="btnLoadMore">Load more</button></td></tr>
+		        	</table>
+				    
+				</div>
+		  	</div>
+		    <br class="clear">
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+var jobsApp = angular.module('jobsApp', []);
+jobsApp.config(function($interpolateProvider) {
+    $interpolateProvider.startSymbol('{$');
+    $interpolateProvider.endSymbol('$}');
+});
 
+jobsApp.controller('jobController', function($scope, $http) {
+	$scope.items = [];
+	$scope.count = 0;
+	$scope.limit = 2;
+	$scope.offset = 0;
+  	getData($scope, $http);
+	$scope.getJobs = function() {
+	  	getData($scope, $http);
+	}
+}); 
+
+function getData($scope, $http){
+	$http({
+	  	headers: { 'Content-Type':'application/json', 'Authorization':'token 3d0e846a1b276977bbc26e797ac1eb1bfc508ca6'},
+	    method : "GET",
+	    url : "http://127.0.0.1:8000/api/v1/jobs/?limit="+$scope.limit+"&offset="+$scope.offset
+
+	  }).then(function mySuccess(response) {
+	  		console.log(response.data.results);
+	  		$scope.items = $scope.items.concat(response.data.results);
+	  		$scope.count = response.data.count;
+	  		$scope.offset = $scope.items.length;
+	  		if ($scope.items.length == response.data.count) {hideButtom()}
+
+	    }, function myError(response) {
+	    	alert(response.status);
+	});
+} 
+
+function hideButtom(){
+	document.getElementById("btnLoadMore").classList.add("ng-hide");
+}
+</script>
 {% endblock %}
