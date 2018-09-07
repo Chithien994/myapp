@@ -54,12 +54,13 @@ from myapp.mail import *
 # Configuration
 # Add hosts that are allowed to do cross-site requests to CORS_ORIGIN_WHITELIST or set CORS_ORIGIN_ALLOW_ALL to True to allow all hosts.
 #If True, the whitelist will not be used and all origins will be accepted
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
 
-# CORS_ORIGIN_WHITELIST = (
-#     'google.com',
-#     'hostname.example.com'
-# )
+CORS_ORIGIN_WHITELIST = (
+    'google.com',
+    'hostname.example.com',
+    'itbigger.ga'
+)
 
 # Application definition
 
@@ -91,7 +92,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.common.BrokenLinkEmailsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'corsheaders.middleware.CorsPostCsrfMiddleware',
 ]
 
 ROOT_URLCONF = 'myapp.urls'
