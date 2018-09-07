@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     'ijobs',
     'polls',
     'core',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -90,6 +91,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.common.BrokenLinkEmailsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'myapp.urls'
