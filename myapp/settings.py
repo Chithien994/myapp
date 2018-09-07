@@ -51,6 +51,8 @@ MANAGERS = ADMINS
 
 from myapp.mail import *
 
+CORS_ORIGIN_WHITELIST = ('*')
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -68,6 +70,7 @@ INSTALLED_APPS = [
     'ijobs',
     'polls',
     'core',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -80,6 +83,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'core.middleware.DisableCsrfMiddleware',
     'django.middleware.common.BrokenLinkEmailsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'myapp.urls'
