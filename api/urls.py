@@ -14,4 +14,5 @@ api_v1.register(r'jobs', IJobViewSet)
 urlpatterns = [
      url(r'v1/', include((api_v1.urls, 'api_v1'), namespace='myapp')),
      url(r'v1/signup/', v1.signup, name='signup'),
+     url(r'v1/login', v1.login, name='login'),
 ]

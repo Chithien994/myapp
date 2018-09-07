@@ -10,6 +10,8 @@ from rest_framework.views import csrf_exempt
 
 from api.serializers import NewUserSerializer
 from core.utils import validate_user_data
+from core.enums import ValidationStatusCode
+from core.constants import VALIDATION_CODE
 
 User = get_user_model()
 
@@ -44,3 +46,27 @@ def signup(request):
                         content_type='application/json',
                         status=200)
 
+
+@api_view(['POST'])
+@csrf_exempt
+@permission_classes((permissions.AllowAny,))
+def login(request):
+    """
+    Login
+    """
+    phone_number = request.data.get('phone_number')
+    if User.objects.filter(phone_number=phone_number).exists():
+        password = request.data.get('password')
+        user = User.objects.get(phone_number=phone_number)
+        if user.check_password(password):
+            return HttpResponse(json.dumps(NewUserSerializer(user).data),
+                                content_type='application/json',
+                                status=200)
+        else:
+            return HttpResponse(json.dumps({'code': ValidationStatusCode.PASSWORD_IS_INVALID.value, 'message': VALIDATION_CODE[ValidationStatusCode.PASSWORD_IS_INVALID]}),
+                                content_type='application/json',
+                                status=200)
+    else:
+        return HttpResponse(json.dumps({'code': ValidationStatusCode.PHONE_NUMBER_IS_INVALID.value, 'message': VALIDATION_CODE[ValidationStatusCode.PHONE_NUMBER_IS_INVALID]}),
+                            content_type='application/json',
+                            status=200)
