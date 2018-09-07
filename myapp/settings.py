@@ -54,8 +54,6 @@ from myapp.mail import *
 # Application definition
 
 INSTALLED_APPS = [
-    'ijobs.apps.IjobsConfig',
-    'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sites',
@@ -63,11 +61,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core',
+    'django_filters',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_swagger',
-    'django_filters',
+    'ijobs',
+    'polls',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -78,6 +78,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'core.middleware.DisableCsrfMiddleware',
+    'django.middleware.common.BrokenLinkEmailsMiddleware',
 ]
 
 ROOT_URLCONF = 'myapp.urls'
