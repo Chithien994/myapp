@@ -62,15 +62,6 @@ CORS_ORIGIN_ALLOW_ALL = True
 #     'itbigger.ga'
 # )
 
-CORS_ALLOW_HEADERS = (
-    'x-requested-with',
-    'content-type',
-    'accept',
-    'Access-Control-Allow-Origin',
-    'authorization',
-    'x-csrftoken'
-)
-
 # Application definition
 
 INSTALLED_APPS = [
