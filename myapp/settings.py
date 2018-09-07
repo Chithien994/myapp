@@ -56,6 +56,7 @@ CORS_ORIGIN_WHITELIST = [
     'google.com',
     'http://www.itbigger.ga',
     'itbigger.ga',
+    'www.itbigger.ga',
     'localhost:8080',
     '127.0.0.1:8000',
 ]
