@@ -55,6 +55,7 @@ CORS_ORIGIN_WHITELIST = (
     '*',
     'google.com',
     'http://www.itbigger.ga',
+    'itbigger.ga',
     'localhost:8080',
     '127.0.0.1:8000'
 )
@@ -87,7 +88,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'core.middleware.DisableCsrfMiddleware',
     'django.middleware.common.BrokenLinkEmailsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
