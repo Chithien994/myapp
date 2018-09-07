@@ -51,6 +51,9 @@ class QuestionViewSet(viewsets.ModelViewSet):
 class IJobViewSet(viewsets.ModelViewSet):
     queryset = IJob.objects.all()
     serializer_class = IJobSerializer
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [CustomTokenAuthentication,
+                              SessionAuthentication, BasicAuthentication]
 
 @csrf_exempt
 @permission_classes((permissions.IsAuthenticated,))
