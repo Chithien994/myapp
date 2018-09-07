@@ -51,15 +51,15 @@ MANAGERS = ADMINS
 
 from myapp.mail import *
 
-CORS_ORIGIN_WHITELIST = [
-    '*',
-    'google.com',
-    'http://www.itbigger.ga',
-    'itbigger.ga',
-    'www.itbigger.ga',
-    'localhost:8080',
-    '127.0.0.1:8000',
-]
+# Configuration
+# Add hosts that are allowed to do cross-site requests to CORS_ORIGIN_WHITELIST or set CORS_ORIGIN_ALLOW_ALL to True to allow all hosts.
+#If True, the whitelist will not be used and all origins will be accepted
+CORS_ORIGIN_ALLOW_ALL = True
+
+# CORS_ORIGIN_WHITELIST = (
+#     'google.com',
+#     'hostname.example.com'
+# )
 
 # Application definition
 
