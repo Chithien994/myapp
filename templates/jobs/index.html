@@ -69,9 +69,9 @@ jobsApp.controller('jobController', function($scope, $http) {
 
 function getData($scope, $http){
 	$http({
-	  	headers: { 'Content-Type':'application/json', 'Authorization':'token 0163bd19c46798cf4f41f96940cd253656402b18'},
+	  	headers: { 'Content-Type':'application/json', 'Authorization':'token '+token},
 	    method : "GET",
-	    url : "http://chithien994.pythonanywhere.com/api/v1/jobs/?limit="+$scope.limit+"&offset="+$scope.offset
+	    url : "/api/v1/jobs/?limit="+$scope.limit+"&offset="+$scope.offset
 
 	  }).then(function mySuccess(response) {
 	  		console.log(response.data.results);
