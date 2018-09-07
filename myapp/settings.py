@@ -54,12 +54,21 @@ from myapp.mail import *
 # Configuration
 # Add hosts that are allowed to do cross-site requests to CORS_ORIGIN_WHITELIST or set CORS_ORIGIN_ALLOW_ALL to True to allow all hosts.
 #If True, the whitelist will not be used and all origins will be accepted
-# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ORIGIN_WHITELIST = (
-    'google.com',
-    'hostname.example.com',
-    'itbigger.ga'
+# CORS_ORIGIN_WHITELIST = (
+#     'google.com',
+#     'hostname.example.com',
+#     'itbigger.ga'
+# )
+
+CORS_ALLOW_HEADERS = (
+    'x-requested-with',
+    'content-type',
+    'accept',
+    'origin',
+    'authorization',
+    'x-csrftoken'
 )
 
 # Application definition
