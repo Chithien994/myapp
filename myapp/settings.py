@@ -66,7 +66,7 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
     'content-type',
     'accept',
-    'origin',
+    'Access-Control-Allow-Origin',
     'authorization',
     'x-csrftoken'
 )
