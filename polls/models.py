@@ -43,6 +43,7 @@ class Question(models.Model):
     class Meta:
         db_table = 'questions'
         verbose_name_plural = 'questions'
+        ordering = ['-pub_date']
 
 
 class Choice(models.Model):

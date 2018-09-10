@@ -19,7 +19,8 @@ from django.urls import include, path
 from rest_framework_swagger.views import get_swagger_view
 
 from api.views import oauth2callback
-from appview.views import home, job
+from appview.views import home
+from ijobs.views import job
 
 schema_view = get_swagger_view(title='MyApp API')
 
