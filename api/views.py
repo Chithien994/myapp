@@ -48,7 +48,8 @@ class QuestionViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     authentication_classes = [CustomTokenAuthentication,
                               SessionAuthentication, BasicAuthentication]
-    filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
+    filter_backends = (filters.OrderingFilter,)
+    ordering_fields = '__all__'
 
 class IJobViewSet(viewsets.ModelViewSet):
     queryset = IJob.objects.all()
@@ -57,7 +58,8 @@ class IJobViewSet(viewsets.ModelViewSet):
     authentication_classes = [CustomTokenAuthentication,
                               SessionAuthentication, BasicAuthentication]
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
-    filter_fields = ('user')
+    filter_fields = ('user',)
+    ordering_fields = '__all__'
 
 @csrf_exempt
 @permission_classes((permissions.IsAuthenticated,))
