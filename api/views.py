@@ -6,7 +6,8 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from rest_framework.decorators import permission_classes
-from rest_framework import exceptions, viewsets, permissions
+from rest_framework import exceptions, filters, viewsets, permissions
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.authentication import BasicAuthentication, \
     SessionAuthentication, TokenAuthentication
 from rest_framework.authtoken.models import Token
