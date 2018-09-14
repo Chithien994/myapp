@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf.urls import url
+from django.conf import settings
 from django.urls import include, path
+from django.conf.urls.static import static
+
 from rest_framework_swagger.views import get_swagger_view
 
 from api.views import reset_password, oauth2callback
@@ -34,4 +37,4 @@ urlpatterns = [
     url(r'^reset_password/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
                 reset_password, name='resetpassword'),
     url(r'^oauth2callback$', oauth2callback, name='oauth2callback'),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

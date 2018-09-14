@@ -4,6 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from core.models import AppUser, Setting
+from django.utils.html import format_html
 
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
@@ -76,6 +77,10 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ('email',)
     ordering = ('email',)
     filter_horizontal = ()
+    
+    # def show_profile_picture(self, obj):
+    #     return format_html('<img src="%s" class="rounded-circle" alt="Cinque Terre">'%obj.profile_picture)
+    # show_profile_picture.mark_safe = True
 
 # Now register the new UserAdmin...
 admin.site.register(AppUser, UserAdmin)
