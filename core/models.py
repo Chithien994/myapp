@@ -99,7 +99,7 @@ class AppUser(DateTimeModel, AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
     full_name = models.CharField(max_length=80, blank=True, null=True)
     profile_picture = models.ImageField(
-        upload_to=photo_upload_to, max_length=255, null=True, blank=True)
+        upload_to=photo_upload_to, max_length=255, null=True, blank=True, default='default/avatar-default.jpg')
     phone_number = models.CharField(max_length=20, unique=True)
     company_name = models.CharField(
         null=True, blank=True, max_length=200, default='')
