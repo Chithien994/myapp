@@ -18,7 +18,7 @@ from django.conf.urls import url
 from django.urls import include, path
 from rest_framework_swagger.views import get_swagger_view
 
-from api.views import oauth2callback
+from api.views import reset_password, oauth2callback
 from appview.views import home
 from ijobs.views import job
 
@@ -31,5 +31,7 @@ urlpatterns = [
     path('docs/', schema_view),
     url(r'^$', home, name='home'),
     url(r'jobs/', job, name='job'),
+    url(r'^reset_password/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+                reset_password, name='resetpassword'),
     url(r'^oauth2callback$', oauth2callback, name='oauth2callback'),
 ]
