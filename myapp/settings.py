@@ -9,8 +9,8 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
-
 from __future__ import absolute_import, unicode_literals
+from django.utils.translation import gettext as _
 import os
 import pymysql
 pymysql.install_as_MySQLdb()
@@ -23,7 +23,6 @@ SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 # Name of the directory for the project.
 PROJECT_DIRNAME = PROJECT_ROOT.split(os.sep)[-1]
 PROJECT_PATH = os.path.realpath(os.path.dirname(os.path.dirname(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -58,7 +57,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 # CORS_ORIGIN_WHITELIST = (
 #     'google.com',
-#     'hostname.example.com',
+#     '127.0.0.1:8000',
 #     'itbigger.ga'
 # )
 
@@ -181,6 +180,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_ROOT = os.path.join(PROJECT_PATH, 'static')
 STATIC_URL = '/static/'
+
+MEDIA_URL = '/files/'
+MEDIA_ROOT = os.path.join(PROJECT_PATH, *MEDIA_URL.strip('/').split('/'))
+
+STATICFILES_DIRS = [
+   os.path.join(PROJECT_PATH, 'files'),
+   os.path.join(PROJECT_PATH, 'public'),
+]
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
 
 AUTH_USER_MODEL = 'core.AppUser'
 
