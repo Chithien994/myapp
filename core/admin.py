@@ -41,7 +41,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = AppUser
-        fields = ('email', 'password','full_name', 'phone_number', 'company_name', 'address', 'state', 'city', 'zip_code', 'is_active', 'is_admin',)
+        fields = ('email', 'password','full_name', 'profile_picture', 'phone_number', 'company_name', 'address', 'state', 'city', 'zip_code', 'is_active', 'is_admin',)
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -61,7 +61,7 @@ class UserAdmin(BaseUserAdmin):
     list_display = ('email', 'full_name', 'phone_number', 'is_admin')
     list_filter = ('is_admin',)
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
+        (None, {'fields': ('profile_picture', 'email', 'password')}),
         ('Personal info', {'fields': ('full_name', 'phone_number','company_name', 'address', 'state', 'city', 'zip_code',)}),
         ('Permissions', {'fields': ('is_admin',)}),
     )

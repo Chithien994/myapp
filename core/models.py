@@ -1,11 +1,45 @@
-from decimal import Decimal
+from __future__ import absolute_import
 
+import datetime
+import hashlib
+import os
+from decimal import Decimal
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.dispatch.dispatcher import receiver
 from rest_framework.authtoken.models import Token
+
+
+def get_file_path(instance, filename):
+    """
+    :param instance:
+    :param filename:
+    :return:
+    """
+    ext = filename.split('.')[-1]
+    now = datetime.datetime.now()
+    filename = '%s.%s' % (str(hashlib.sha224(str(filename) +
+                                             str(now.microsecond)).hexdigest()), ext)
+    return os.path.join(instance.directory_string_var, filename)
+
+
+def photo_upload_to(instance, filename):
+        return os.path.join(instance.directory_string_var, str(instance.phone_number), filename)
+
+def get_thumbnail_path(instance, filename):
+    """
+    :param instance:
+    :param filename:
+    :return:
+    """
+    ext = filename.split('.')[-1]
+    now = datetime.datetime.now()
+    filename = '%s/%s-%s.%s' % (now.strftime('%Y/%m/%d'),
+                                filename.replace('.' + ext, ''), str(now.microsecond), ext)
+    return os.path.join(instance.directory_string_var, filename)
+
 
 @python_2_unicode_compatible
 class DateTimeModel(models.Model):
@@ -58,11 +92,14 @@ class AppUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+
 class AppUser(DateTimeModel, AbstractBaseUser):
     email = models.EmailField(max_length=255,unique=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     full_name = models.CharField(max_length=80, blank=True, null=True)
+    profile_picture = models.ImageField(
+        upload_to=photo_upload_to, max_length=255, null=True, blank=True)
     phone_number = models.CharField(max_length=20, unique=True)
     company_name = models.CharField(
         null=True, blank=True, max_length=200, default='')
@@ -71,6 +108,7 @@ class AppUser(DateTimeModel, AbstractBaseUser):
     state = models.CharField(null=True, blank=True, max_length=100, default='')
     city = models.CharField(null=True, blank=True, max_length=100, default='')
     zip_code = models.IntegerField(blank=True, null=True, default=0)
+    directory_string_var = ''
     objects = AppUserManager()
 
     USERNAME_FIELD = 'phone_number'
@@ -100,8 +138,44 @@ class AppUser(DateTimeModel, AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
+    def delete(self, *args, **kwargs):
+        try:
+            self.profile_picture.delete()
+        except:
+            pass
+        super(AppUser, self).delete(*args, **kwargs)
+
     class Meta:
         db_table = 'users'
+
+
+@receiver(models.signals.post_save, sender=AppUser)
+def create_token(sender, instance, created, **kwargs):
+    if created:
+        try:
+            token, created = Token.objects.get_or_create(user=instance)
+        except:
+            pass
+
+
+@receiver(models.signals.pre_save, sender=AppUser)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    """
+        Deletes file from filesystem
+    """
+    if not instance.pk:
+        return False
+    try:
+        old_profile_picture = AppUser.objects.get(pk=instance.pk).profile_picture
+    except AppUser.DoesNotExist:
+        return False
+    new_profile_picture = instance.profile_picture
+    if not old_profile_picture == new_profile_picture:
+        try:
+            old_profile_picture.delete(save=False)
+        except:
+            pass
+
 
 class Setting(DateTimeModel):
     key = models.CharField(max_length=255, unique=True)
@@ -112,12 +186,3 @@ class Setting(DateTimeModel):
 
     class Meta:
         db_table = 'settings'
-
-
-@receiver(models.signals.post_save, sender=AppUser)
-def create_token(sender, instance, created, **kwargs):
-    if created:
-        try:
-            token, created = Token.objects.get_or_create(user=instance)
-        except:
-            pass

@@ -153,3 +153,16 @@ def changepassword(request):
     return HttpResponse(json.dumps({'code': code, 'message': message}),
                         content_type='application/json',
                         status=200)
+
+@api_view(['POST'])
+@csrf_exempt
+@permission_classes((permissions.IsAuthenticated,))
+def upload_profile_picture(request):
+    """
+    upload
+    """
+    profile_picture = request.data.get('profile_picture')
+    code, message = 200, _('Your tracking has been deleted successfully!')
+    return HttpResponse(json.dumps({'code': code, 'message': message}),
+                        content_type='application/json',
+                        status=200)
