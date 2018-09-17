@@ -241,3 +241,5 @@ if PRODUCTION:
                                  }
         }
     }
+
+CLIENT_SECRET = os.path.join(BASE_DIR, 'client_secret.json')

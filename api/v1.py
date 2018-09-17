@@ -25,7 +25,6 @@ User = get_user_model()
 @csrf_exempt
 @permission_classes((permissions.AllowAny,))
 def signup(request):
-    print(request.data)
     """
     Signup new user
     """
@@ -52,7 +51,6 @@ def signup(request):
                         content_type='application/json',
                         status=200)
 
-
 @api_view(['POST'])
 @csrf_exempt
 @permission_classes((permissions.AllowAny,))
@@ -76,7 +74,6 @@ def login(request):
         return HttpResponse(json.dumps({'code': ValidationStatusCode.PHONE_NUMBER_IS_INVALID.value, 'message': VALIDATION_CODE[ValidationStatusCode.PHONE_NUMBER_IS_INVALID]}),
                             content_type='application/json',
                             status=200)
-
 
 
 @api_view(['POST'])
@@ -122,7 +119,6 @@ def forgotpassword(request):
     return HttpResponse(json.dumps({'code': code, 'message': message}),
                         content_type='application/json',
                         status=200)
-
 
 @api_view(['POST'])
 @csrf_exempt
